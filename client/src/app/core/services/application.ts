@@ -71,8 +71,8 @@ export interface CompanyHistoryResponse {
   providedIn: 'root'
 })
 export class ApplicationService {
-  private API_URL = 'http://localhost:5000/api/applications';
-  private COMPANY_API_URL = 'http://localhost:5000/api/companies';
+  private API_URL = 'https://jobtrackr-api-jju9.onrender.com/api/applications';
+  private COMPANY_API_URL = 'https://jobtrackr-api-jju9.onrender.com/api/companies';
 
   constructor(
     private http: HttpClient,

@@ -19,7 +19,7 @@ export interface DashboardStats {
   providedIn: 'root'
 })
 export class DashboardService {
-  private API_URL = 'http://localhost:5000/api/dashboard';
+  private API_URL = 'https://jobtrackr-api-jju9.onrender.com/api/dashboard';
 
   constructor(
     private http: HttpClient,

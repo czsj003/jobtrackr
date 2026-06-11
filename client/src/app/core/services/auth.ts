@@ -24,7 +24,7 @@ interface MeResponse {
   providedIn: 'root'
 })
 export class AuthService {
-  private API_URL = 'http://localhost:5000/api/auth';
+  private API_URL = 'https://jobtrackr-api-jju9.onrender.com/api/auth';
 
   constructor(private http: HttpClient) {}
 
