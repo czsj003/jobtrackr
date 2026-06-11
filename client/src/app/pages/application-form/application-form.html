@@ -1,0 +1,162 @@
+<app-navbar></app-navbar>
+
+<main class="page-container">
+  <section class="page-header">
+    <h1>{{ isEditMode ? 'Edit Application' : 'Add Application' }}</h1>
+    <p>
+      {{ isEditMode ? 'Update this job application.' : 'Add a new job application to your tracker.' }}
+    </p>
+  </section>
+
+  <div *ngIf="isPageLoading" class="state-card">
+    Loading application...
+  </div>
+
+  <div *ngIf="errorMessage" class="alert error">
+    {{ errorMessage }}
+  </div>
+
+  <div *ngIf="successMessage" class="alert success">
+    {{ successMessage }}
+  </div>
+
+  <form
+    *ngIf="!isPageLoading"
+    class="application-form"
+    (ngSubmit)="onSubmit()"
+  >
+    <div class="form-row">
+      <div class="form-group">
+        <label>Company *</label>
+        <input
+          type="text"
+          name="company"
+          placeholder="Google"
+          [(ngModel)]="company"
+        />
+      </div>
+
+      <div class="form-group">
+        <label>Position *</label>
+        <input
+          type="text"
+          name="position"
+          placeholder="Software Engineer Intern"
+          [(ngModel)]="position"
+        />
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label>Location</label>
+        <input
+          type="text"
+          name="location"
+          placeholder="Chicago, IL"
+          [(ngModel)]="location"
+        />
+      </div>
+
+      <div class="form-group">
+        <label>Work Type</label>
+        <select name="workType" [(ngModel)]="workType">
+          <option value="Remote">Remote</option>
+          <option value="Hybrid">Hybrid</option>
+          <option value="Onsite">Onsite</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label>Status</label>
+        <select name="status" [(ngModel)]="status">
+          <option value="Saved">Saved</option>
+          <option value="Applied">Applied</option>
+          <option value="Interviewing">Interviewing</option>
+          <option value="Offer">Offer</option>
+          <option value="Rejected">Rejected</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Applied Date *</label>
+        <input
+          type="date"
+          name="appliedDate"
+          [(ngModel)]="appliedDate"
+        />
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label>Salary Min</label>
+        <input
+          type="number"
+          name="salaryMin"
+          placeholder="80000"
+          [(ngModel)]="salaryMin"
+        />
+      </div>
+
+      <div class="form-group">
+        <label>Salary Max</label>
+        <input
+          type="number"
+          name="salaryMax"
+          placeholder="120000"
+          [(ngModel)]="salaryMax"
+        />
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Job URL</label>
+      <input
+        type="url"
+        name="jobUrl"
+        placeholder="https://example.com/job-posting"
+        [(ngModel)]="jobUrl"
+      />
+    </div>
+
+    <div class="form-group">
+      <label>Source</label>
+      <input
+        type="text"
+        name="source"
+        placeholder="LinkedIn, Indeed, Company Website..."
+        [(ngModel)]="source"
+      />
+    </div>
+
+    <div class="form-group">
+      <label>Notes</label>
+      <textarea
+        rows="5"
+        name="notes"
+        placeholder="Add notes about this application..."
+        [(ngModel)]="notes"
+      ></textarea>
+    </div>
+
+    <div class="form-actions">
+      <a
+        [routerLink]="isEditMode && applicationId ? ['/applications', applicationId] : ['/applications']"
+        class="secondary-link"
+      >
+        Cancel
+      </a>
+
+      <button type="submit" class="primary-btn" [disabled]="isLoading">
+        {{
+          isLoading
+            ? (isEditMode ? 'Updating...' : 'Saving...')
+            : (isEditMode ? 'Update Application' : 'Save Application')
+        }}
+      </button>
+    </div>
+  </form>
+</main>

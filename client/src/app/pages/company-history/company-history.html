@@ -1,0 +1,90 @@
+<app-navbar></app-navbar>
+
+<main class="page-container">
+  <div *ngIf="isLoading" class="state-card">
+    Loading company history...
+  </div>
+
+  <div *ngIf="errorMessage" class="alert error">
+    {{ errorMessage }}
+  </div>
+
+  <section *ngIf="!isLoading && !errorMessage && history">
+    <section class="page-header">
+      <h1>Company History</h1>
+      <p>Check previous applications before applying again.</p>
+    </section>
+
+    <section class="company-summary">
+      <div>
+        <span>Company</span>
+        <strong>{{ history.company }}</strong>
+      </div>
+
+      <div>
+        <span>Last Applied</span>
+        <strong>{{ formatDate(history.lastAppliedDate) }}</strong>
+      </div>
+
+      <div>
+        <span>Total Applications</span>
+        <strong>{{ history.totalApplications }}</strong>
+      </div>
+    </section>
+
+    <section class="warning-card" [ngClass]="getWarningClass()">
+      <h2>{{ getWarningTitle() }}</h2>
+      <p>{{ getWarningMessage() }}</p>
+    </section>
+
+    <section
+      *ngIf="history.applications.length === 0"
+      class="empty-state"
+    >
+      <h2>No history found</h2>
+      <p>You have not applied to this company before.</p>
+      <a routerLink="/applications/new" class="primary-link">
+        Add Application
+      </a>
+    </section>
+
+    <section
+      *ngIf="history.applications.length > 0"
+      class="history-list"
+    >
+      <div class="section-header">
+        <h2>Previous Applications</h2>
+        <a routerLink="/applications" class="secondary-link">
+          Back to all applications
+        </a>
+      </div>
+
+      <article
+        *ngFor="let application of history.applications"
+        class="history-item"
+      >
+        <div class="history-main">
+          <div>
+            <h3>{{ application.position }}</h3>
+            <p>
+              Applied on {{ formatDate(application.appliedDate) }}
+            </p>
+            <p class="meta">
+              {{ application.location || 'No location' }} · {{ application.workType }}
+            </p>
+          </div>
+
+          <span class="status-badge" [ngClass]="getStatusClass(application.status)">
+            {{ application.status }}
+          </span>
+        </div>
+
+        <div class="history-actions">
+          <a [routerLink]="['/applications', application._id]">
+            View Details
+          </a>
+        </div>
+      </article>
+    </section>
+  </section>
+</main>

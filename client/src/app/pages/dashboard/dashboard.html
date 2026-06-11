@@ -1,0 +1,110 @@
+<app-navbar></app-navbar>
+
+<main class="page-container">
+  <section class="page-header">
+    <div>
+      <h1>Dashboard</h1>
+      <p>Overview of your job application progress.</p>
+
+      <p *ngIf="user" class="user-message">
+        Logged in as {{ user.name }}.
+      </p>
+    </div>
+
+    <a routerLink="/applications/new" class="primary-link">
+      Add Application
+    </a>
+  </section>
+
+  <div *ngIf="isLoading" class="state-card">
+    Loading dashboard...
+  </div>
+
+  <div *ngIf="errorMessage" class="alert error">
+    {{ errorMessage }}
+  </div>
+
+  <section *ngIf="!isLoading && !errorMessage" class="dashboard-content">
+    <section class="stats-grid">
+      <div class="stat-card">
+        <span>Total Applications</span>
+        <strong>{{ stats.totalApplications }}</strong>
+      </div>
+
+      <div class="stat-card">
+        <span>Saved</span>
+        <strong>{{ stats.saved }}</strong>
+      </div>
+
+      <div class="stat-card">
+        <span>Applied</span>
+        <strong>{{ stats.applied }}</strong>
+      </div>
+
+      <div class="stat-card">
+        <span>Interviewing</span>
+        <strong>{{ stats.interviewing }}</strong>
+      </div>
+
+      <div class="stat-card">
+        <span>Offers</span>
+        <strong>{{ stats.offers }}</strong>
+      </div>
+
+      <div class="stat-card">
+        <span>Rejected</span>
+        <strong>{{ stats.rejected }}</strong>
+      </div>
+    </section>
+
+    <section class="rates-section">
+      <h2>Conversion Rates</h2>
+
+      <div class="rates-grid">
+        <div class="rate-card">
+          <span>Interview Rate</span>
+          <strong>{{ stats.interviewRate }}%</strong>
+          <p>Applications that reached interviewing.</p>
+        </div>
+
+        <div class="rate-card">
+          <span>Offer Rate</span>
+          <strong>{{ stats.offerRate }}%</strong>
+          <p>Applications that resulted in offers.</p>
+        </div>
+
+        <div class="rate-card">
+          <span>Rejection Rate</span>
+          <strong>{{ stats.rejectionRate }}%</strong>
+          <p>Applications marked as rejected.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="quick-actions">
+      <h2>Quick Actions</h2>
+
+      <div class="quick-actions-grid">
+        <a routerLink="/applications/new">
+          Add a new application
+        </a>
+
+        <a routerLink="/applications">
+          View all applications
+        </a>
+
+        <a routerLink="/applications">
+          Search company history
+        </a>
+      </div>
+    </section>
+
+    <section *ngIf="stats.totalApplications === 0" class="empty-state">
+      <h2>No applications yet</h2>
+      <p>Add your first job application to start seeing dashboard stats.</p>
+      <a routerLink="/applications/new" class="primary-link">
+        Add Application
+      </a>
+    </section>
+  </section>
+</main>

@@ -1,0 +1,88 @@
+<app-navbar></app-navbar>
+
+<main class="page-container">
+  <div *ngIf="isLoading" class="state-card">
+    Loading application...
+  </div>
+
+  <div *ngIf="errorMessage" class="alert error">
+    {{ errorMessage }}
+  </div>
+
+  <section *ngIf="!isLoading && !errorMessage && application" class="detail-wrapper">
+    <section class="page-header-row">
+      <div>
+        <h1>Application Detail</h1>
+        <p>View the details of this job application.</p>
+      </div>
+
+      <div class="header-actions">
+        <a [routerLink]="['/applications', application._id, 'edit']" class="primary-link">
+          Edit
+        </a>
+
+        <button type="button" class="danger-btn" (click)="onDelete()" [disabled]="isDeleting">
+          {{ isDeleting ? 'Deleting...' : 'Delete' }}
+        </button>
+      </div>
+    </section>
+
+    <section class="detail-card">
+      <div class="detail-header">
+        <div>
+          <h2>{{ application.position }}</h2>
+          <p>{{ application.company }}</p>
+        </div>
+
+        <span class="status-badge" [ngClass]="getStatusClass(application.status)">
+          {{ application.status }}
+        </span>
+      </div>
+
+      <div class="detail-grid">
+        <div>
+          <span>Location</span>
+          <strong>{{ application.location || 'Not provided' }}</strong>
+        </div>
+
+        <div>
+          <span>Work Type</span>
+          <strong>{{ application.workType }}</strong>
+        </div>
+
+        <div>
+          <span>Applied Date</span>
+          <strong>{{ formatDate(application.appliedDate) }}</strong>
+        </div>
+
+        <div>
+          <span>Salary Range</span>
+          <strong>{{ formatSalary(application.salaryMin, application.salaryMax) }}</strong>
+        </div>
+
+        <div>
+          <span>Source</span>
+          <strong>{{ application.source || 'Not provided' }}</strong>
+        </div>
+
+        <div>
+          <span>Job URL</span>
+          <strong>
+            <a *ngIf="application.jobUrl" [href]="application.jobUrl" target="_blank" rel="noopener noreferrer">
+              Open job post
+            </a>
+
+            <span *ngIf="!application.jobUrl">
+              Not provided
+            </span>
+          </strong>
+        </div>
+      </div>
+
+      <div class="notes-section">
+        <h3>Notes</h3>
+        <p>{{ application.notes || 'No notes yet.' }}</p>
+      </div>
+    </section>
+  </section>
+</main>

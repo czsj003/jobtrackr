@@ -1,0 +1,131 @@
+<app-navbar></app-navbar>
+
+<main class="page-container">
+  <section class="page-header-row">
+    <div>
+      <h1>Applications</h1>
+      <p>Track every job you applied to.</p>
+    </div>
+
+    <a routerLink="/applications/new" class="primary-link">Add Application</a>
+  </section>
+
+  <form class="toolbar" (ngSubmit)="onSearch()">
+    <input
+      type="text"
+      name="companySearch"
+      placeholder="Search by company name..."
+      [(ngModel)]="companySearch"
+    />
+
+    <select
+      name="statusFilter"
+      [(ngModel)]="statusFilter"
+      (change)="onStatusChange()"
+    >
+      <option *ngFor="let status of statuses" [value]="status">
+        {{ status }}
+      </option>
+    </select>
+
+    <button type="submit" class="search-btn">
+      Search
+    </button>
+
+    <button
+      type="button"
+      class="clear-btn"
+      *ngIf="activeCompanySearch || activeStatusFilter !== 'All'"
+      (click)="clearSearch()"
+    >
+      Clear
+    </button>
+  </form>
+
+  <section
+    *ngIf="activeCompanySearch || activeStatusFilter !== 'All'"
+    class="search-summary"
+  >
+    <div>
+      <span *ngIf="activeCompanySearch">
+        Company:
+        <strong>{{ activeCompanySearch }}</strong>
+      </span>
+
+      <span *ngIf="activeStatusFilter !== 'All'">
+        Status:
+        <strong>{{ activeStatusFilter }}</strong>
+      </span>
+    </div>
+
+    <a
+      *ngIf="activeCompanySearch"
+      [routerLink]="['/companies', activeCompanySearch]"
+    >
+      View company history
+    </a>
+  </section>
+
+  <div *ngIf="isLoading" class="state-card">
+    Loading applications...
+  </div>
+
+  <div *ngIf="errorMessage" class="alert error">
+    {{ errorMessage }}
+  </div>
+
+  <section
+    *ngIf="!isLoading && !errorMessage && applications.length === 0"
+    class="empty-state"
+  >
+    <h2>No applications found</h2>
+
+    <p *ngIf="!activeCompanySearch && activeStatusFilter === 'All'">
+      Once you add job applications, they will appear here.
+    </p>
+
+    <p *ngIf="activeCompanySearch || activeStatusFilter !== 'All'">
+      No applications match your current filters.
+    </p>
+
+    <a routerLink="/applications/new" class="primary-link">Add Application</a>
+  </section>
+
+  <section
+    *ngIf="!isLoading && !errorMessage && applications.length > 0"
+    class="applications-list"
+  >
+    <article
+      *ngFor="let application of applications"
+      class="application-card"
+    >
+      <div class="card-main">
+        <div>
+          <h2>{{ application.position }}</h2>
+
+          <a
+            class="company"
+            [routerLink]="['/companies', application.company]"
+          >
+            {{ application.company }}
+          </a>
+        </div>
+
+        <span class="status-badge" [ngClass]="getStatusClass(application.status)">
+          {{ application.status }}
+        </span>
+      </div>
+
+      <div class="card-details">
+        <span>{{ application.location || 'No location' }}</span>
+        <span>{{ application.workType }}</span>
+        <span>Applied: {{ formatDate(application.appliedDate) }}</span>
+      </div>
+
+      <div class="card-actions">
+        <a [routerLink]="['/applications', application._id]">View Details</a>
+        <a [routerLink]="['/applications', application._id, 'edit']">Edit</a>
+      </div>
+    </article>
+  </section>
+</main>

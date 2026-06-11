@@ -1,0 +1,15 @@
+<nav class="navbar">
+  <div class="navbar-left">
+    <a routerLink="/dashboard" class="logo">JobTrackr</a>
+  </div>
+
+  <div class="navbar-links">
+    <a routerLink="/dashboard">Dashboard</a>
+    <a routerLink="/applications">Applications</a>
+    <a routerLink="/applications/new">Add Application</a>
+  </div>
+
+  <div class="navbar-right">
+    <button type="button" (click)="onLogout()">Logout</button>
+  </div>
+</nav>
